@@ -20,5 +20,6 @@ urlpatterns = [
     path('', include('gsm.core.urls')),
     path('', include('gsm.accounts.urls')),
     path('pessoa/', include('gsm.person.urls')),
+    path('pessoas/', include('gsm.persons.urls')),
     path('admin/', admin.site.urls),
 ]

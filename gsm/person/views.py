@@ -58,7 +58,7 @@ def person_create(request):
     if request.method == 'POST':
         form = PersonForm(request.POST)
         contact_formset = ContactFormSet(request.POST)
-        file_document_formset = FileDocumentFormSet(request.POST)
+        file_document_formset = FileDocumentFormSet(request.POST, request.FILES)
 
         if form.is_valid() and contact_formset.is_valid() and file_document_formset.is_valid():
             with transaction.atomic():

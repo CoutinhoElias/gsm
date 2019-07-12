@@ -1,0 +1,68 @@
+{% extends "account/base.html" %}
+{% load material_form %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block head_title %}{% trans "Agendamento" %}{% endblock %}
+
+
+
+{% block inner %}
+
+                <form method="GET">
+                  <div class="row">
+                    <form class="col s12">
+                      <div class="row">
+                        <div class="input-field col s10">
+                          <input id="search_box" type="text" class="validate" name="search_box">
+                          <label for="search_box">Digite o nome da pessoa desejada:</label>
+                        </div>
+
+                        <button class="btn waves-effect waves-light" type="submit">Search
+                            <i class="material-icons right">search</i>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </form>
+
+
+
+
+<!--mdl-data-table&#45;&#45;selectable-->
+                <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp mdl-data-table__cell--non-numeric" tastyle="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="mdl-data-table__header--sorted-ascending mdl-data-table__header--sorted-descending">Id</th>
+                            <th class="mdl-data-table__cell--non-numeric">Nome</th>
+                            <th>Aniversário</th>
+                            <th class="mdl-data-table__cell--non-numeric">Endereço</th>
+                            <th>Lim. Compra</th>
+                            <th>Compra Sempre</th>
+                        </tr>
+                    </thead>
+                    {% for client in clients %}
+                        <tr>
+                            <td>
+                                <a href="{{ client.get_absolute_url }}">{{ client.id|linebreaks }}</a>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{ client.name|linebreaks }}</td>
+                            <td>{{ client.birthday|date:"d/m/Y" }}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{ client.address1|linebreaks }}</td>
+                            <td>{{ client.purchase_limit|floatformat:"2" }}</td>
+                            <td>{% if client.compra_sempre %}
+                                    <i class="material-icons">check_circle</i>
+                                {% else %}
+                                    <i class="material-icons">close</i>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <li>
+                            Sem registros
+                        </li>
+                    {% endfor %}
+                </table>
+    <!--</table>-->
+
+
+{% endblock %}

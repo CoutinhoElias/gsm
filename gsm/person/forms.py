@@ -35,7 +35,7 @@ class PersonForm(forms.ModelForm):
         exclude = ('priority',)
 
     layout = Layout(
-        Fieldset("Pessoa",
+        Fieldset('Pessoa',
                  Row(Span9('name'), Span3('nascimento'), ),
                  Row(Span4('phone'), Span4('cpf_cnpj'), Span4('rg')),
                  Row(Span12('email'), ),

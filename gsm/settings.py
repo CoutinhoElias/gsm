@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'gsm.accounts',
     'gsm.core',
     'gsm.person',
+    'gsm.persons',
 ]
 
 MIDDLEWARE = [
