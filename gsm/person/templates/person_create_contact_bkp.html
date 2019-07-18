@@ -70,14 +70,7 @@
 
                 <tbody>
                     {% for file_document_form in file_document_formset %}
-                          <tr {% if forloop.first %} style="display:none;" {% endif %}>
-
-<!--                            <td>-->
-<!--                              {% for hidden in file_document_form.hidden_fields %}-->
-<!--                                {{ hidden }}-->
-<!--                              {% endfor %}-->
-<!--                            </td>-->
-
+                          <tr>
                             <td>{{ file_document_form.kind.errors }} {{ file_document_form.kind }}</td>
                             <td>{{ file_document_form.file_document.errors }} {{ file_document_form.file_document }}</td>
 
@@ -91,7 +84,6 @@
                                    </label>
                                </div>
                             </td>
-<!--                            <td align="center">{{ file_document_form.DELETE }}</td>-->
                           </tr>
                     {% endfor %}
 

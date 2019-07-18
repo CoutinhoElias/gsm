@@ -149,10 +149,10 @@ def employees(request):
             return HttpResponseRedirect('/reserva/listagem/')
         else:
             print('<<<<==== AVISO DE FORMULARIO INVALIDO ====>>>>')
-            return render(request, 'person.html', {'form':form})
+            return render(request, 'persons.html', {'form':form})
     else:
         context = {'form': EmployeeForm()}
-        return render(request, 'person.html', context)
+        return render(request, 'persons.html', context)
 
 
 def address(request):

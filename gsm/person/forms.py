@@ -55,6 +55,7 @@ ContactFormSet = inlineformset_factory(Person, Contact,
 # widgets={'kind__kind': forms.TextInput(attrs={'class': 'input-field browser-default'}), },
 
 FileDocumentFormSet = inlineformset_factory(Person, FilesDocuments,
+                                            widgets={'delete': forms.CheckboxInput(attrs={'width': '110%'}), },
                                             exclude=('id',),
                                             can_delete=True,
                                             fields=('kind', 'file_document'),

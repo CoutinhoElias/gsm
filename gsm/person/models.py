@@ -17,7 +17,7 @@ class Person(models.Model):
     cpf_cnpj = models.CharField('CPF/CNPJ', max_length=18, null=True, blank=True)
     rg = models.CharField('RG', max_length=18, null=True, blank=True)
     nascimento = models.DateField('Data Nascimento')
-    email = models.CharField('E-Mail', max_length=50, null=True, blank=False)
+    email = models.EmailField('E-Mail', max_length=50, null=True, blank=False)
     cep = models.CharField('Cep', max_length=10, null=True, blank=False)
     logradouro = models.CharField('Logradouro', max_length=100)
     numero = models.CharField('Número', max_length=10, null=False, blank=False)
