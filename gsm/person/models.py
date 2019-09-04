@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+from django.urls import reverse
+
 KIND_CONTACT = (
     ('0', 'Telefone Fixo'),
     ('1', 'Celular 1'),
@@ -8,6 +10,13 @@ KIND_CONTACT = (
     ('3', 'Celular 3'),
     ('4', 'E-Mail'),
     ('5', 'Telefone Trabalho'),
+)
+
+KIND_DOCUMENT = (
+    ('0', 'RG'),
+    ('1', 'CPF'),
+    ('2', 'CNH'),
+    ('3', 'Comprovante Endereço'),
 )
 
 
@@ -46,25 +55,11 @@ class Person(models.Model):
 
         super(Person, self).save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('person: person_update', args=[str(self.id)])
+
     def __str__(self):
         return self.name
-
-
-# class Kind(models.Model):
-#     kind = models.CharField('Tipo Contato', max_length=50)
-#
-#     class Meta:
-#         ordering = ('kind',)
-#         verbose_name = 'Tipo de Contato'
-#         verbose_name_plural = 'Tipos de Contato'
-#
-#     def save(self, *args, **kwargs):
-#         self.kind = self.kind.upper()
-#
-#         super(Kind, self).save(*args, **kwargs)
-#
-#     def __str__(self):
-#         return self.kind
 
 
 class Contact(models.Model):
@@ -93,7 +88,6 @@ class Contact(models.Model):
         return self.kind
 
 
-# -----------------------------
 class FilesDocuments(models.Model):
     person = models.ForeignKey("person.person",
                                null=False,
@@ -101,7 +95,7 @@ class FilesDocuments(models.Model):
                                related_name="person_documents",
                                on_delete=models.CASCADE,
                                verbose_name="Pessoa")
-    kind = models.TextField('Tipo Documento', max_length=1, choices=KIND_CONTACT)
+    kind = models.TextField('Tipo Documento', max_length=1, choices=KIND_DOCUMENT)
     file_document = models.FileField(upload_to='documents/')
 
     class Meta:
@@ -109,5 +103,11 @@ class FilesDocuments(models.Model):
         verbose_name = 'Documento'
         verbose_name_plural = 'Documentos'
 
+    def delete(self, *args, **kwargs):
+        self.file_document.delete()
+        super().delete(*args, **kwargs)
+
     def __str__(self):
         return self.kind
+
+
