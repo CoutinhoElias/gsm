@@ -38,7 +38,7 @@
             <ul id="drp_clientes" class="dropdown-content">
               <li><a class="black-text darken-4" href="{% url 'person_create' %}"><i class="material-icons">person</i>Novo Cliente</a></li>
               <li><a class="black-text darken-4" href="/"><i class="material-icons">perm_contact_calendar</i>Novo Contato</a></li>
-              <li><a class="black-text darken-4"  href="/"><i class="material-icons">format_list_bulleted</i>Lista Clientes</a></li>
+              <li><a class="black-text darken-4"  href="{% url 'person_client_list' %}"><i class="material-icons">format_list_bulleted</i>Lista Clientes</a></li>
               <li class="divider"></li>
               <li><a class="black-text darken-4"  href="#!">em breve...</a></li>
             </ul>
@@ -120,7 +120,7 @@
                         <ul>
                           <li><a class="black-text darken-4" href="{% url 'person_create' %}"><i class="material-icons">person</i>Novo Cliente</a></li>
                           <li><a class="black-text darken-4" href="/"><i class="material-icons">perm_contact_calendar</i>Novo Contato</a></li>
-                          <li><a class="black-text darken-4" href="/"><i class="material-icons">list</i>Lista Clientes</a></li>
+                          <li><a class="black-text darken-4" href="{% url 'person_client_list' %}"><i class="material-icons">list</i>Lista Clientes</a></li>
                         </ul>
                       </div>
                     </li>
@@ -262,7 +262,9 @@
         <script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
         <script src="{% static 'js/charts.js' %}"></script>
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
-
+<!--        #/////////////////////////////-->
+        {% include 'material/includes/material_js.html' %}
+<!--        #/////////////////////////////-->
 
 
     <!-- Compiled and minified JQuery -->
@@ -273,7 +275,7 @@
         
 
         <!-- Compiled and minified JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>-->
 
 
         <script>
@@ -298,118 +300,118 @@
             });
         </script>
 
-<!--        <script>-->
-<!--                $(document).ready(function(){-->
+        <script>
+                $(document).ready(function(){
 
-<!--                    //MATERIALIZE-->
-<!--                    $('.count').each(function(){-->
-<!--                        $(this).prop('Counter', 0).animate({-->
-<!--                            Counter: $(this).text()-->
-<!--                        }, {-->
-<!--                            duration: 1500,-->
-<!--                            easing: 'swing',-->
-<!--                            step: function(now){-->
-<!--                                $(this).text(Math.ceil(now));-->
-<!--                            }-->
-<!--                        });-->
-<!--                    });-->
-<!--                    $('.sidenav').sidenav({-->
-<!--                        //edge: 'right',-->
-<!--                    });-->
-
-<!--                    $('.collapsible').collapsible();-->
-
-<!--                    $('.tabs').tabs();-->
-
-<!--                    $('.dropdown-trigger').dropdown({ hover: true,-->
-<!--                                                      constrainWidth: false,-->
-<!--                                                      coverTrigger: false });-->
-
-<!--                    $('.fixed-action-btn').floatingActionButton();-->
-
-<!--                    $('.datepicker').datepicker(-->
-<!--                        {-->
-<!--                            showClearBtn:false,-->
-<!--                            autoClose:true,-->
-<!--                            setDefaultDate:true,-->
-<!--                            //POSSO SETAR 01/mm/yyyy OU REMOVER ESSE CAMPO DO MODELO E PREENCHER COM SIGNALS-->
-<!--                            format: 'dd/mm/yyyy',-->
-<!--                                i18n: {-->
-<!--                                    months: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],-->
-<!--                                    monthsShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],-->
-<!--                                    weekdays: ["Domingo","Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],-->
-<!--                                    weekdaysShort: ["Dom","Seg", "Ter", "Qua", "Qui", "Sex", "Sab"],-->
-<!--                                    weekdaysAbbrev: ["D","S", "T", "Q", "Q", "S", "S"]-->
-<!--                                }-->
-<!--                            }-->
-<!--                        ).setLocale('pt-BR');-->
-
-<!--                    $('select').material_select();-->
-
-<!--                    // JQUERY MTZ.MONTHPICKER-->
-<!--                    //https://www.jqueryscript.net/time-clock/jQuery-Plugin-For-jQuery-UI-Month-Year-Picker-mtz-monthpicker.html-->
-
-<!--                    $('.monthpicker').monthpicker({-->
-<!--                        pattern: 'mm/yyyy',-->
-<!--                        monthNames: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],-->
-<!--                    });-->
-<!--                });-->
-
-
-<!--        </script>-->
-
-
-
-
-<script type="text/javascript">
-
-    cep_value = document.getElementById("id_zipcode");
-
-    logradouro = document.getElementById("id_public_place");
-    bairro = document.getElementById("id_neighborhood");
-    localidade = document.getElementById("id_city");
-    uf = document.getElementById("id_state");
-    country = document.getElementById("id_country");
-
-    logradouro.readOnly = true;
-    bairro.readOnly = true;
-    localidade.readOnly = true;
-    uf.readOnly = true;
-    //country.readOnly = true;
-
-    cep_value.addEventListener("keyup",function(event){
-
-        if (this.value.length == 8){
-
-            headers = new Headers();
-            headers.append("Access-Control-Allow-Origin","*")
-
-            data = fetch("https://viacep.com.br/ws/"+ this.value +"/json/",headers)
-                .then(function(response){
-
-                    Promise.resolve(response.json()).then(function(value){
-
-                        logradouro.value = value.logradouro;
-                        bairro.value = value.bairro;
-                        localidade.value = value.localidade;
-                        uf.value = value.uf;
-                        //country.value = 'Brasil';
-
-                        // Adiciona a classe 'active' aos campos já preenchidos, isto faz com que o
-                        // 'label' do campo fique 'alto'
-                        document.getElementById("id_neighborhood_container").className='active';
-                        document.getElementById("id_public_place_container").childNodes[3].className='active';
-                        document.getElementById("id_city_container").childNodes[3].className='active';
-                        document.getElementById("id_state_container").childNodes[3].className='active';
+                    //MATERIALIZE
+                    $('.count').each(function(){
+                        $(this).prop('Counter', 0).animate({
+                            Counter: $(this).text()
+                        }, {
+                            duration: 1500,
+                            easing: 'swing',
+                            step: function(now){
+                                $(this).text(Math.ceil(now));
+                            }
+                        });
+                    });
+                    $('.sidenav').sidenav({
+                        //edge: 'right',
                     });
 
-                }).catch(function(error){
-                    console.log(error);
+                    $('.collapsible').collapsible();
+
+                    $('.tabs').tabs();
+
+                    $('.dropdown-trigger').dropdown({ hover: true,
+                                                      constrainWidth: false,
+                                                      coverTrigger: false });
+
+                    $('.fixed-action-btn').floatingActionButton();
+
+                    $('.datepicker').datepicker(
+                        {
+                            showClearBtn:false,
+                            autoClose:true,
+                            setDefaultDate:true,
+                            //POSSO SETAR 01/mm/yyyy OU REMOVER ESSE CAMPO DO MODELO E PREENCHER COM SIGNALS
+                            format: 'dd/mm/yyyy',
+                                i18n: {
+                                    months: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+                                    monthsShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+                                    weekdays: ["Domingo","Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
+                                    weekdaysShort: ["Dom","Seg", "Ter", "Qua", "Qui", "Sex", "Sab"],
+                                    weekdaysAbbrev: ["D","S", "T", "Q", "Q", "S", "S"]
+                                }
+                            }
+                        ).setLocale('pt-BR');
+
+                    $('select').material_select();
+
+                    // JQUERY MTZ.MONTHPICKER
+                    //https://www.jqueryscript.net/time-clock/jQuery-Plugin-For-jQuery-UI-Month-Year-Picker-mtz-monthpicker.html
+
+                    $('.monthpicker').monthpicker({
+                        pattern: 'mm/yyyy',
+                        monthNames: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    });
                 });
-        }
-    });
-    $('#btn_save').click(addNewAddress);
-</script>
+
+
+        </script>
+
+
+
+
+<!--<script type="text/javascript">-->
+
+<!--    cep_value = document.getElementById("id_zipcode");-->
+
+<!--    logradouro = document.getElementById("id_public_place");-->
+<!--    bairro = document.getElementById("id_neighborhood");-->
+<!--    localidade = document.getElementById("id_city");-->
+<!--    uf = document.getElementById("id_state");-->
+<!--    country = document.getElementById("id_country");-->
+
+<!--    logradouro.readOnly = true;-->
+<!--    bairro.readOnly = true;-->
+<!--    localidade.readOnly = true;-->
+<!--    uf.readOnly = true;-->
+<!--    //country.readOnly = true;-->
+
+<!--    cep_value.addEventListener("keyup",function(event){-->
+
+<!--        if (this.value.length == 8){-->
+
+<!--            headers = new Headers();-->
+<!--            headers.append("Access-Control-Allow-Origin","*")-->
+
+<!--            data = fetch("https://viacep.com.br/ws/"+ this.value +"/json/",headers)-->
+<!--                .then(function(response){-->
+
+<!--                    Promise.resolve(response.json()).then(function(value){-->
+
+<!--                        logradouro.value = value.logradouro;-->
+<!--                        bairro.value = value.bairro;-->
+<!--                        localidade.value = value.localidade;-->
+<!--                        uf.value = value.uf;-->
+<!--                        //country.value = 'Brasil';-->
+
+<!--                        // Adiciona a classe 'active' aos campos já preenchidos, isto faz com que o-->
+<!--                        // 'label' do campo fique 'alto'-->
+<!--                        document.getElementById("id_neighborhood_container").className='active';-->
+<!--                        document.getElementById("id_public_place_container").childNodes[3].className='active';-->
+<!--                        document.getElementById("id_city_container").childNodes[3].className='active';-->
+<!--                        document.getElementById("id_state_container").childNodes[3].className='active';-->
+<!--                    });-->
+
+<!--                }).catch(function(error){-->
+<!--                    console.log(error);-->
+<!--                });-->
+<!--        }-->
+<!--    });-->
+<!--    $('#btn_save').click(addNewAddress);-->
+<!--</script>-->
     {% endblock %}
 
 </body>

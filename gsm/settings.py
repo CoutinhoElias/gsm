@@ -31,6 +31,8 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
 # ALLOWED_HOSTS = ['127.0.0.1', '.localhost', '*']
 ALLOWED_HOSTS = ['*']
+
+
 # ------------------------------------------------------------------------------------------
 AWS_DEFAULT_ACL = None
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
@@ -41,15 +43,12 @@ AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
 AWS_LOCATION = 'static'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'gsm/core/static'), ]
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'gsm/core/static'),
-# ]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles'), ]
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# ------------------------------------------------------------------------------------------
 
+DEFAULT_FILE_STORAGE = 'gsm.storage_backends.MediaStorage'
+# ------------------------------------------------------------------------------------------
 # Application definition
 
 INSTALLED_APPS = [
@@ -61,6 +60,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'material',
     'storages',
+    'corsheaders',
 
     'gsm.accounts',
     'gsm.core',
@@ -69,6 +69,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -76,6 +78,37 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOW_METHODS  = [
+     ' DELETE ' ,
+     ' GET ' ,
+     ' OPTIONS ' ,
+     ' PATCH ' ,
+     ' POST ' ,
+     ' PUT ' ,
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ORIGIN_WHITELIST = [
+    'https://example.com',
+    'https://sub.example.com',
+    'http://localhost:8080',
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1:9000'
 ]
 
 ROOT_URLCONF = 'gsm.urls'
@@ -145,8 +178,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_URL = '/static/'
+STATIC_ROOT = '/var/https://gsm-gervas.s3.amazonaws.com/static/'
+# os.path.join(BASE_DIR, 'staticfiles')
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
