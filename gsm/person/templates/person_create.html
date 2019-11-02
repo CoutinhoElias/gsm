@@ -1,8 +1,6 @@
 {% extends "index.html" %}
 {% load static %}
 {% load material_form %}
-
-
 {% block container %}
 
     <div class="card larger" id="card-radius">
@@ -13,6 +11,7 @@
                     {% part form.name prefix %}<i class="material-icons prefix">person</i>{% endpart %}
                     {% part form.phone prefix %}<i class="material-icons prefix">phone</i>{% endpart %}
                     {% part form.email prefix %}<i class="material-icons prefix">contact_mail</i>{% endpart %}
+
                 {% endform %}
             </div>
 

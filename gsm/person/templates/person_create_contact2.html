@@ -3,36 +3,23 @@
 {% load material_form %}
 {% load i18n %}
 {% block container %}
-    <script>
-        $(document).ready(function(){
-            $("#add-item").click(function(ev) {
-                ev.preventDefault();
-                var count = $('#profissao-pessoa').children().length;
-                var tmplMarkup = $("#qualificacao-profissao-pessoa").html();
-                var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
-                $("div#profissao-pessoa").append(compiledTmpl);
-                // update form count
-                $('#id_person_documents-TOTAL_FORMS').attr('value', count + 1);
-                // some animate to scroll to view our new form
-                $('html, body').animate({
-                    scrollTop: $("#add-item").position().top-200
-                }, 800);
-            });
+<script type="text/javascript">
+    $(function() {
+        $('#myForm tbody tr').formset({
+            prefix: '{{ file_document_formset.prefix }}'
         });
-    </script>
-
-
-
+    })
+</script>
 
 <div class="card" id="card-radius">
     <form class="form-container" id="myForm" method="POST" enctype="multipart/form-data">{% csrf_token %}
-        <div class="card-content">
-            {% form form=form %}
-                {% part form.name prefix %}<i class="material-icons prefix">person</i>{% endpart %}
-                {% part form.phone prefix %}<i class="material-icons prefix">phone</i>{% endpart %}
-                {% part form.email prefix %}<i class="material-icons prefix">contact_mail</i>{% endpart %}
-            {% endform %}
-        </div>
+            <div class="card-content">
+                {% form form=form %}
+                    {% part form.name prefix %}<i class="material-icons prefix">person</i>{% endpart %}
+                    {% part form.phone prefix %}<i class="material-icons prefix">phone</i>{% endpart %}
+                    {% part form.email prefix %}<i class="material-icons prefix">contact_mail</i>{% endpart %}
+                {% endform %}
+            </div>
 
         <div class="card-content">
             <h5>Adicione os Tipos de contatos</h5>
@@ -71,6 +58,8 @@
                 </tbody>
             </table>
 
+            <h5>Adicione os documentos</h5>
+
             <table class="highlight">
                 <thead class="#cfd8dc blue-grey lighten-4">
                     <tr>
@@ -84,9 +73,9 @@
                 {{ file_document_formset.management_form }}
 
                 <tbody>
-                    <div id="pessoa" class="form-inline form-group">
+                    <div id="form_set2">
                         {% for file_document_form in file_document_formset %}
-                            <tr id="item2-{{ forloop.counter0 }}">
+                            <tr data-formset-form="">
                                 <td>{{ file_document_form.kind.errors }} {{ file_document_form.kind }}</td>
                                 <td>{{ file_document_form.file_document.errors }} {{ file_document_form.file_document }}</td>
                                 <td>{{ file_document_form.id.errors }} {{ file_document_form.id }} {% if file_document_form.instance.pk %}{{ file_document_form.DELETE }}{% endif %}</td>
@@ -100,55 +89,61 @@
                                    </div>
                                 </td>
 
-<!--                                <td>-->
-<!--                                    <div style="display:none"><input type="checkbox" name="formset-emergency_contacts-__prefix__-DELETE" id="id_person_documents-__prefix__-DELETE" /></div>-->
-<!--                                    <button type="button" class="btn btn-flat white lighten-4"-->
-<!--                                            style="padding:0px 5px;font-size:0.7rem;height:calc(100% - 15px);width:100%"-->
-<!--                                            data-formset-delete-button>-->
-<!--                                        <i class="material-icons">clear</i>-->
-<!--                                    </button>-->
-<!--                                </td>-->
+                                <td>
+                                    <div style="display:none"><input type="checkbox" name="formset-emergency_contacts-__prefix__-DELETE" id="id_person_documents-__prefix__-DELETE" /></div>
+                                    <button type="button" class="btn btn-flat white lighten-4"
+                                            style="padding:0px 5px;font-size:0.7rem;height:calc(100% - 15px);width:100%"
+                                            data-formset-delete-button>
+                                        <i class="material-icons">clear</i>
+                                    </button>
+                                </td>
                             </tr>
                         {% endfor %}
+
+<!--                        <input type="button" value="Add More" id="add_more2">-->
+<!--                        <div id="empty_form2" style="display:none">-->
+<!--                            <table class='no_error'>-->
+<!--                                {{ file_document_form.empty_form }}-->
+<!--                            </table>-->
+<!--                        </div>-->
                     </div>
                 </tbody>
             </table>
         </div>
-
-        <a class="btn-floating btn-small waves-light red" id="add-item"><i class="material-icons">add</i></a>
 
         <div class="card-action">
             <div class="right-align">
                 <button name="btn_submit" class="waves-effect waves-light btn" type="submit">Salvar</button>
             </div>
         </div>
+
+<!-- ------------------------------------------------MODELO FORMSET--------------------------------------------------------------- -->
+<!--        <script>-->
+<!--            $('#add_more').click(function() {-->
+<!--                cloneMore('div.table:last', 'service');-->
+<!--            });-->
+<!--        </script>-->
+<!--        <h3>FormSet example</h3>-->
+<!--        <div id="form_set">-->
+<!--            {% for form in file_document_formset %}-->
+<!--                {{form.non_field_errors}}-->
+<!--                {{form.errors}}-->
+<!--                <table class='no_error'>-->
+<!--                    {{ form }}-->
+<!--                </table>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--        <input type="button" value="Add More" id="add_more">-->
+<!--        <div id="empty_form" style="display:none">-->
+<!--            <table class='no_error'>-->
+<!--                {{ file_document_formset.empty_form }}-->
+<!--            </table>-->
+<!--        </div>-->
+<!-- ------------------------------------------------FIM MODELO FORMSET------------------------------------------------------------ -->
     </form>
 </div>
+
 {% endblock %}
 
-{% block js %}
 
-<script>
-$('#add-item').click(function(ev) {
-        ev.preventDefault();
-        var count = $('#pessoa').children().length;
-        var tmplMarkup = $('#document-file').html();
-        var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
-        $('div#pessoa').append(compiledTmpl);
-        
-        // update form count
-        $('#id_person-TOTAL_FORMS').attr('value', count + 1);
-        
-        // some animate to scroll to view our new form
-        $('html, body').animate({
-            scrollTop: $("#add-item").position().top - 200
-        }, 800);
-    });
-</script>
 
-<script type="text/html" id="document-file">
-  <div id="id_person-__prefix__" class="form-group">
-    {{ file_document_formset.empty_form }}
-  </div>
-</script>
-{% endblock js %}

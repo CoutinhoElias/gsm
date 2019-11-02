@@ -4,8 +4,7 @@
 {% load i18n %}
 {% block container %}
 
-<div class="card larger" id="card-radius">
-
+<div class="card" id="card-radius">
     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
             <div class="card-content">
                 {% form form=form %}
@@ -50,7 +49,6 @@
                             </td>
                           </tr>
                     {% endfor %}
-
                 </tbody>
             </table>
 
@@ -84,40 +82,227 @@
                                    </label>
                                </div>
                             </td>
+
+                            <td>
+                                <div style="display:none"><input type="checkbox" name="formset-emergency_contacts-__prefix__-DELETE" id="id_person_documents-__prefix__-DELETE" /></div>
+                                <button type="button" class="btn btn-flat white lighten-4"
+                                        style="padding:0px 5px;font-size:0.7rem;height:calc(100% - 15px);width:100%"
+                                        data-formset-delete-button>
+                                    <i class="material-icons">clear</i>
+                                </button>
+                            </td>
+                                <!--<td align="center">{{ file_document_form.DELETE }}</td>-->
                           </tr>
                     {% endfor %}
 
                 </tbody>
             </table>
-
         </div>
 
-          <!-- Modal Trigger -->
-  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
-
-  <!-- Modal Structure -->
-  <div id="modal1" class="modal">
-    <div class="modal-content">
-      <h4>Modal Header</h4>
-      <p>A bunch of text</p>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-    </div>
-  </div>
-
-        <br><br>
-
-            <div class="card-action">
-                <div class="right-align">
-                    <button name="btn_submit" class="waves-effect waves-light btn" type="submit">Salvar</button>
-                </div>
+        <div class="card-action">
+            <div class="right-align">
+                <button name="btn_submit" class="waves-effect waves-light btn" type="submit">Salvar</button>
             </div>
+        </div>
+
+<!-- ------------------------------------------------MODELO FORMSET--------------------------------------------------------------- -->
+        <dmc-formset>
+            <div class="formset-field col s12" data-formset-prefix="formset-file-document">
+                <!-- --------------------------------SCRIPT----------------------------------------------------------------------- -->
+                <script type="form-template" data-formset-empty-form="">
+                    <tr data-formset-form>
+                        <td>
+                            <div class="row">
+                                <div class="input-field col s12 required" id="id_formset-file-document-__prefix__-email_container">
+                                    <input id="id_formset-file-document-__prefix__-email" name="formset-file-document-__prefix__-email" type="email">
+                                    <label for="id_formset-file-document-__prefix__-email">Email</label>
+
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="row">
+                                <div class="input-field col s12 required" id="id_formset-file-document-__prefix__-description_container">
+                                    <input id="id_formset-file-document-__prefix__-description" name="formset-file-document-__prefix__-description" type="text">
+                                    <label for="id_formset-file-document-__prefix__-description">Description</label>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div style="display:none"><input type="checkbox" name="formset-file-document-__prefix__-DELETE" id="id_formset-file-document-__prefix__-DELETE" /></div>
+                            <button type="button" class="btn btn-flat white lighten-4"
+                                    style="padding:0px 5px;font-size:0.7rem;height:calc(100% - 15px);width:100%"
+                                    data-formset-delete-button>
+                                <i class="material-icons">clear</i>
+                            </button>
+                        </td>
+
+                    </tr>
+                </script>
+                <!-- --------------------------------FIM SCRIPT------------------------------------------------------------------- -->
+                <!-- --------------------------------REPETICOES------------------------------------------------------------------- -->
+                <table class="table responsive-table">
+                    <tbody data-formset-body="">
+                        <tr data-formset-form="">
+
+                            <td>
+                                <div class="row">
+                                    <div class="input-field col s12 required" id="id_formset-file-document-0-email_container">
+                                        <input id="id_formset-file-document-0-email" name="formset-file-document-0-email" type="email">
+                                        <label for="id_formset-file-document-0-email">Email</label>
+
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="row">
+                                    <div class="input-field col s12 required" id="id_formset-file-document-0-description_container">
+                                        <input id="id_formset-file-document-0-description" name="formset-file-document-0-description" type="text">
+                                        <label for="id_formset-file-document-0-description">Description</label>
+
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div style="display:none"><input type="checkbox" name="formset-file-document-0-DELETE" id="id_formset-file-document-0-DELETE"></div>
+                                <button type="button" class="btn btn-flat white lighten-4" style="padding:0px 5px;font-size:0.7rem;height:calc(100% - 15px);width:100%" data-formset-delete-button="">
+                                    <i class="material-icons">clear</i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr data-formset-form="">
+
+                            <td>
+                                <div class="row">
+                                    <div class="input-field col s12 required" id="id_formset-file-document-1-email_container">
+                                        <input id="id_formset-file-document-1-email" name="formset-file-document-1-email" type="email">
+                                        <label for="id_formset-file-document-1-email" class="">Email</label>
+
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="row">
+                                    <div class="input-field col s12 required" id="id_formset-file-document-1-description_container">
+                                        <input id="id_formset-file-document-1-description" name="formset-file-document-1-description" type="text">
+                                        <label for="id_formset-file-document-1-description">Description</label>
+
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div style="display:none"><input type="checkbox" name="formset-file-document-1-DELETE" id="id_formset-file-document-1-DELETE"></div>
+                                <button type="button" class="btn btn-flat white lighten-4" style="padding:0px 5px;font-size:0.7rem;height:calc(100% - 15px);width:100%" data-formset-delete-button="">
+                                    <i class="material-icons">clear</i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr data-formset-form="">
+
+                            <td>
+                                <div class="row">
+                                    <div class="input-field col s12 required" id="id_formset-file-document-2-email_container">
+                                        <input id="id_formset-file-document-2-email" name="formset-file-document-2-email" type="email">
+                                        <label for="id_formset-file-document-2-email">Email</label>
+
+                                    </div>
+                                </div>
+                            </td>
+
+
+
+                            <td>
+                                <div class="row">
+                                    <div class="input-field col s12 required" id="id_formset-file-document-2-description_container">
+                                        <input id="id_formset-file-document-2-description" name="formset-file-document-2-description" type="text">
+                                        <label for="id_formset-file-document-2-description">Description</label>
+
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div style="display:none"><input type="checkbox" name="formset-file-document-2-DELETE" id="id_formset-file-document-2-DELETE"></div>
+                                <button type="button" class="btn btn-flat white lighten-4" style="padding:0px 5px;font-size:0.7rem;height:calc(100% - 15px);width:100%" data-formset-delete-button="">
+                                    <i class="material-icons">clear</i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- --------------------------------FIM REPETICOES--------------------------------------------------------------- -->
+                <!-- --------------------------------BOTAO------------------------------------------------------------------------ -->
+                <button type="button" class="btn btn-flat grey lighten-4" style="padding:0px 40px;width:100%" data-formset-add="">
+                    <i class="material-icons">add</i>
+                </button>
+                <!-- --------------------------------FIM BOTAO-------------------------------------------------------------------- -->
+                <!-- --------------------------------TOTAIS----------------------------------------------------------------------- -->
+                <input type="hidden" name="formset-file-document-TOTAL_FORMS" value="3" id="id_formset-file-document-TOTAL_FORMS">
+                <input type="hidden" name="formset-file-document-INITIAL_FORMS" value="0" id="id_formset-file-document-INITIAL_FORMS">
+                <input type="hidden" name="formset-file-document-MIN_NUM_FORMS" value="0" id="id_formset-file-document-MIN_NUM_FORMS">
+                <input type="hidden" name="formset-file-document-MAX_NUM_FORMS" value="1000" id="id_formset-file-document-MAX_NUM_FORMS">
+                <!-- --------------------------------FIM TOTAIS------------------------------------------------------------------- -->
+            </div>
+        </dmc-formset>
+<!-- ------------------------------------------------FIM MODELO FORMSET------------------------------------------------------------ -->
     </form>
-
-
 </div>
 
 {% endblock %}
+
+<!--                <script type="form-template" data-formset-empty-form="">-->
+
+<!--                    <tr data-formset-form>-->
+<!--                        <tr>-->
+<!--                            <td>-->
+<!--                                <div class="select-wrapper"><input class="select-dropdown dropdown-trigger" type="text" readonly="true" data-target="select-options-89a6e3a6-4dcb-5ec4-83da-e37b3adeb685"><ul id="select-options-89a6e3a6-4dcb-5ec4-83da-e37b3adeb685" class="dropdown-content select-dropdown" tabindex="0"><li id="select-options-89a6e3a6-4dcb-5ec4-83da-e37b3adeb6850" tabindex="0" class="selected"><span>-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</span></li><li id="select-options-89a6e3a6-4dcb-5ec4-83da-e37b3adeb6851" tabindex="0"><span>RG</span></li><li id="select-options-89a6e3a6-4dcb-5ec4-83da-e37b3adeb6852" tabindex="0"><span>CPF</span></li><li id="select-options-89a6e3a6-4dcb-5ec4-83da-e37b3adeb6853" tabindex="0"><span>CNH</span></li><li id="select-options-89a6e3a6-4dcb-5ec4-83da-e37b3adeb6854" tabindex="0"><span>Comprovante Endereço</span></li></ul><svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg>-->
+<!--                                    <select name="person_documents-0-kind" id="id_person_documents-0-kind" tabindex="-1">-->
+<!--                                        <option value="" selected="">-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</option>-->
+<!--                                        <option value="0">RG</option>-->
+<!--                                        <option value="1">CPF</option>-->
+<!--                                        <option value="2">CNH</option>-->
+<!--                                        <option value="3">Comprovante Endereço</option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+<!--                            </td>-->
+
+<!--                            <td>-->
+<!--                                <input type="file" name="person_documents-0-file_document" id="id_person_documents-0-file_document">-->
+<!--                                <span class="character-counter" style="float: right; font-size: 12px;"></span>-->
+<!--                            </td>-->
+
+<!--                            <td>-->
+<!--                                <input type="hidden" name="person_documents-0-id" id="id_person_documents-0-id">-->
+<!--                                <span class="character-counter" style="float: right; font-size: 12px;"></span>-->
+<!--                            </td>-->
+
+<!--                            <td class="left-align">-->
+<!--                               <div class="switch">-->
+<!--                                   <label>-->
+
+<!--                                       <input type="checkbox" name="person_documents-0-DELETE" id="id_person_documents-0-DELETE">-->
+<!--                                    <span class="lever"></span>-->
+<!--                                   <span class="character-counter" style="float: right; font-size: 12px;"></span></label>-->
+<!--                               </div>-->
+<!--                            </td>-->
+
+<!--                            <td>-->
+<!--                                <div style="display:none"><input type="checkbox" name="formset-emergency_contacts-__prefix__-DELETE" id="id_person_documents-__prefix__-DELETE"><span class="character-counter" style="float: right; font-size: 12px;"></span></div>-->
+<!--                                <button type="button" class="btn btn-flat white lighten-4" style="padding:0px 5px;font-size:0.7rem;height:calc(100% - 15px);width:100%" data-formset-delete-button="">-->
+<!--                                    <i class="material-icons">clear</i>-->
+<!--                                </button>-->
+<!--                            </td>-->
+
+<!--                        </tr>-->
+<!--                    </tr>-->
+<!--                </script>-->
 
 

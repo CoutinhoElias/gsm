@@ -1,0 +1,60 @@
+{% extends "index.html" %}
+{% load static %}
+{% load material_form %}
+{% load i18n %}
+{% block container %}
+  <div class="col-md-12">
+    <p>
+      <a href="{% url 'person_client_list' %}" class="btn btn-primary">Invoice list</a>
+    </p>
+  </div>
+  <br>
+  <div class="col-lg-12">
+    <h2>New Invoice</h2>
+    <br>
+
+
+    <form method="post" role="form" autocomplete="off" enctype="multipart/form-data">{% csrf_token %}
+
+      <fieldset>
+        {% form form=form %}
+            {% part form.name prefix %}<i class="material-icons prefix">person</i>{% endpart %}
+            {% part form.phone prefix %}<i class="material-icons prefix">phone</i>{% endpart %}
+            {% part form.email prefix %}<i class="material-icons prefix">contact_mail</i>{% endpart %}
+        {% endform %}
+      </fieldset>
+      <fieldset>
+        <table class="table">
+          <thead>
+              <th>Title</th>
+              <th>Quantity</th>
+              <th>Unit price</th>
+              <th></th>
+          </thead>
+          {{ file_document_formset.management_form }}
+          <tbody>
+          {% for file_document_form in file_document_formset %}
+            <tr class="formset">
+                                <td>{{ file_document_form.kind.errors }} {{ file_document_form.kind }}</td>
+                                <td>{{ file_document_form.file_document.errors }} {{ file_document_form.file_document }}</td>
+                                <td>{{ file_document_form.id.errors }} {{ file_document_form.id }} {% if file_document_form.instance.pk %}{{ file_document_form.DELETE }}{% endif %}</td>
+              <td class=""></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </fieldset>
+      <br><br>
+
+        <button type="submit" class="btn btn-primary pull-right">Create invoice</button>
+
+    </form>
+  </div>
+  <script src="{% static 'js/jquery.formset.min.js' %}"></script>
+  <script src="{% static 'js/invoice_form.js' %}"></script>
+{% endblock %}
+
+
+
+
+

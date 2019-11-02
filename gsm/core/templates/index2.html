@@ -43,6 +43,13 @@
               <li><a class="black-text darken-4"  href="#!">em breve...</a></li>
             </ul>
 
+            <ul id="drp_financeiro" class="dropdown-content">
+              <li><a class="black-text darken-4" href="{% url 'financeiro_create' %}"><i class="material-icons">add</i>Novo Titulo</a></li>
+              <li><a class="black-text darken-4"  href="{% url 'financeirot_list' %}"><i class="material-icons">format_list_bulleted</i>Lista Financeiro</a></li>
+              <li class="divider"></li>
+              <li><a class="black-text darken-4"  href="#!">em breve...</a></li>
+            </ul>
+
 <!--            <ul id="drp_financeiro" class="dropdown-content">-->
 <!--              <li><a class="black-text darken-4" href="/"><i class="material-icons">monetization_on</i>Novo Titulo</a></li>-->
 <!--              <li><a class="black-text darken-4"  href="/"><i class="material-icons">attach_money</i>Lista Titulos</a></li>-->
@@ -81,6 +88,7 @@
         <!--        <a href="" class="brand-logo">Alterdata Filiais</a>-->
                     <ul class="right hide-on-med-and-down ">
                         <li><a class="dropdown-trigger black-text darken-4" href="#!" data-target="drp_clientes">Pessoa<i class="material-icons right">arrow_drop_down</i></a></li>
+                        <li><a class="dropdown-trigger black-text darken-4" href="#!" data-target="drp_financeiro">Financeiro<i class="material-icons right">arrow_drop_down</i></a></li>
 <!--
                         <li><a class="dropdown-trigger black-text darken-4" href="#!" data-target="drp_financeiro">Financeiro<i class="material-icons right">arrow_drop_down</i></a></li>
                         <li><a class="dropdown-trigger black-text darken-4" href="#!" data-target="drp_questions">Pesquisa<i class="material-icons right">arrow_drop_down</i></a></li>
@@ -148,9 +156,8 @@
                     <li class="bold"><a class="collapsible-header" tabindex="0">FINANCEIRO</a>
                       <div class="collapsible-body">
                         <ul>
-                          <li><a href="autocomplete.html">Autocomplete</a></li>
-                          <li><a href="checkboxes.html">Checkboxes</a></li>
-                          <li><a href="chips.html">Chips</a></li>
+                          <li><a class="black-text darken-4" href="{% url 'financeiro_create' %}"><i class="material-icons">add</i>Novo Titulo</a></li>
+                          <li><a class="black-text darken-4"  href="{% url 'financeirot_list' %}"><i class="material-icons">format_list_bulleted</i>Lista Financeiro</a></li>
                         </ul>
                       </div>
                     </li>
@@ -178,7 +185,7 @@
 
         <!--BLOCO CONTAINER   -->
         {% block container %}
-
+            
         {% endblock container %}
     </div>
 
@@ -252,17 +259,32 @@
 <!--    </div>-->
 <!--    </div>-->
 
+    {% block js %}
+        teu cu
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
+<!--    <script src="{% static 'js/jquery.formset.js' %}"></script>-->
 
-        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="{% static 'js/jquery.mtz.monthpicker.js' %}"></script>
+
         <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
         <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
         <script src="{% static 'js/charts.js' %}"></script>
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
+
+<!--        #/////////////////////////////-->
         {% include 'material/includes/material_js.html' %}
+<!--        #/////////////////////////////-->
+
+
+    <!-- Compiled and minified JQuery -->
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
         <script>
             jQuery.datetimepicker.setLocale('pt-BR');
+
             jQuery('#datetimepicker1').datetimepicker({
              i18n:{
               de:{
@@ -284,6 +306,7 @@
 
         <script>
                 $(document).ready(function(){
+
                     //MATERIALIZE
                     $('.count').each(function(){
                         $(this).prop('Counter', 0).animate({
@@ -299,12 +322,17 @@
                     $('.sidenav').sidenav({
                         //edge: 'right',
                     });
+
                     $('.collapsible').collapsible();
+
                     $('.tabs').tabs();
+
                     $('.dropdown-trigger').dropdown({ hover: true,
                                                       constrainWidth: false,
                                                       coverTrigger: false });
+
                     $('.fixed-action-btn').floatingActionButton();
+
                     $('.datepicker').datepicker(
                         {
                             showClearBtn:false,
@@ -321,17 +349,81 @@
                                 }
                             }
                         ).setLocale('pt-BR');
+
                     $('select').material_select();
+
+<!--                    $('.form-container').formset();-->
+
+<!--                    $('#add_more').click(function() {-->
+<!--                        var form_idx = $('#id_form-TOTAL_FORMS').val();-->
+<!--                        $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));-->
+<!--                        $('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);-->
+<!--                    });-->
+
                     // JQUERY MTZ.MONTHPICKER
                     //https://www.jqueryscript.net/time-clock/jQuery-Plugin-For-jQuery-UI-Month-Year-Picker-mtz-monthpicker.html
+
                     $('.monthpicker').monthpicker({
                         pattern: 'mm/yyyy',
                         monthNames: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
                     });
                 });
+
+
         </script>
 
-    {% block js %}
+        <script src="{% static 'js/cep.js' %}"></script>
+
+
+<!--<script type="text/javascript">-->
+
+<!--    cep_value = document.getElementById("id_zipcode");-->
+
+<!--    logradouro = document.getElementById("id_public_place");-->
+<!--    bairro = document.getElementById("id_neighborhood");-->
+<!--    localidade = document.getElementById("id_city");-->
+<!--    uf = document.getElementById("id_state");-->
+<!--    country = document.getElementById("id_country");-->
+
+<!--    logradouro.readOnly = true;-->
+<!--    bairro.readOnly = true;-->
+<!--    localidade.readOnly = true;-->
+<!--    uf.readOnly = true;-->
+<!--    //country.readOnly = true;-->
+
+<!--    cep_value.addEventListener("keyup",function(event){-->
+
+<!--        if (this.value.length == 8){-->
+
+<!--            headers = new Headers();-->
+<!--            headers.append("Access-Control-Allow-Origin","*")-->
+
+<!--            data = fetch("https://viacep.com.br/ws/"+ this.value +"/json/",headers)-->
+<!--                .then(function(response){-->
+
+<!--                    Promise.resolve(response.json()).then(function(value){-->
+
+<!--                        logradouro.value = value.logradouro;-->
+<!--                        bairro.value = value.bairro;-->
+<!--                        localidade.value = value.localidade;-->
+<!--                        uf.value = value.uf;-->
+<!--                        //country.value = 'Brasil';-->
+
+<!--                        // Adiciona a classe 'active' aos campos já preenchidos, isto faz com que o-->
+<!--                        // 'label' do campo fique 'alto'-->
+<!--                        document.getElementById("id_neighborhood_container").className='active';-->
+<!--                        document.getElementById("id_public_place_container").childNodes[3].className='active';-->
+<!--                        document.getElementById("id_city_container").childNodes[3].className='active';-->
+<!--                        document.getElementById("id_state_container").childNodes[3].className='active';-->
+<!--                    });-->
+
+<!--                }).catch(function(error){-->
+<!--                    console.log(error);-->
+<!--                });-->
+<!--        }-->
+<!--    });-->
+<!--    $('#btn_save').click(addNewAddress);-->
+<!--</script>-->
 
     {% endblock %}
 

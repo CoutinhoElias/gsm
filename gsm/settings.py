@@ -61,9 +61,11 @@ INSTALLED_APPS = [
     'material',
     'storages',
     'corsheaders',
+    'extra_views',
 
     'gsm.accounts',
     'gsm.core',
+    'gsm.financial',
     'gsm.person',
     'gsm.persons',
 ]

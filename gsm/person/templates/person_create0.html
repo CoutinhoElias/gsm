@@ -1,0 +1,115 @@
+{% extends "index.html" %}
+{% load static %}
+{% load material_form %}
+{% load i18n %}
+
+{% block container %}
+
+<a href="{% url 'person_client_list' %}">Voltar</a>
+
+<div class="card" id="card-radius">
+
+    <form method="POST" novalidate class="col s12">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col s12">
+        <div class="card-content">
+            {% form form=form %}
+                {% part form.name prefix %}<i class="material-icons prefix">person</i>{% endpart %}
+                {% part form.phone prefix %}<i class="material-icons prefix">phone</i>{% endpart %}
+                {% part form.email prefix %}<i class="material-icons prefix">contact_mail</i>{% endpart %}
+            {% endform %}
+        </div>
+        {{ formset.management_form }}
+        </div>
+      </div>
+
+            {% for file_document_form in formset %}
+                <div id="item2-{{ forloop.counter0 }}" class="form-group">
+
+                    <tr>
+                        <td>{{ file_document_form.kind.errors }} {{ file_document_form.kind }}</td>
+                        <td>{{ file_document_form.file_document.errors }} {{ file_document_form.file_document }}</td>
+                        <td>{{ file_document_form.id.errors }} {{ file_document_form.id }} {% if file_document_form.instance.pk %}{{ file_document_form.DELETE }}{% endif %}</td>
+                        <td class="left-align">
+                           <div class="switch">
+                               <label>
+                                   {{ file_document_form.DELETE.errors }}
+                                   {{file_document_form.DELETE}}
+                                <span class="lever"></span>
+                               </label>
+                           </div>
+                        </td>
+
+<!--                        <td>-->
+<!--                            <div style="display:none"><input type="checkbox" name="formset-emergency_contacts-__prefix__-DELETE" id="id_person_documents-__prefix__-DELETE" /></div>-->
+<!--                            <button type="button" class="btn btn-flat white lighten-4"-->
+<!--                                    style="padding:0px 5px;font-size:0.7rem;height:calc(100% - 15px);width:100%"-->
+<!--                                    data-formset-delete-button>-->
+<!--                                <i class="material-icons">clear</i>-->
+<!--                            </button>-->
+<!--                        </td>-->
+                    </tr>
+                </div>
+            {% endfor %}
+
+      <div class="row">
+        <div class="col s12">
+
+          <div id="estoque" class="form-inline">
+            {% for item_estoque_form in formset %}
+              <div id="id_person-{{ forloop.counter0 }}" class="form-group">
+                {{ item_estoque_form }}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <a class="btn-floating btn-small waves-light red" id="add-item"><i class="material-icons">add</i></a>
+
+      <div class="row float-right">
+        <div class="col-sm-12" style="margin-top: 10px;">
+          <div class="form-inline buttons">
+            <button class="btn btn-primary" value="Save">
+              <i class="fa fa-floppy-o"></i>
+              Salvar
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+</div>
+
+{% endblock container %}
+
+{% block js %}
+
+<script>
+$('#add-item').click(function(ev) {
+    ev.preventDefault();
+    var count = $('#estoque').children().length;
+    var tmplMarkup = $('#document-file').html();
+    var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+    $('div#estoque').append(compiledTmpl);
+
+    // update form count
+    $('#id_person-TOTAL_FORMS').attr('value', count + 1);
+
+    // some animate to scroll to view our new form
+    $('html, body').animate({
+      scrollTop: $("#add-item").position().top - 200
+    }, 800);
+
+    $('#id_estoque-' + (count) + '-produto').addClass('clProduto');
+    $('#id_estoque-' + (count) + '-quantidade').addClass('clQuantidade');
+    });
+</script>
+
+<script type="text/html" id="document-file">
+  <div id="id_person-__prefix__" class="form-group">
+    {{ formset.empty_form }}
+  </div>
+</script>
+{% endblock js %}
