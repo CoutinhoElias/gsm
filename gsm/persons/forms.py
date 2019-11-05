@@ -1,6 +1,9 @@
+from django.forms import formset_factory, modelformset_factory
 from material import *
+from material.base import Layout, Row, Span8, Span7, Span5, Span4
 
-from gsm.persons.models import Client, Employee, Person, Address
+from gsm.core.materialLayout import Fieldset
+from gsm.persons.models import Client, Employee, Person, Address, Invoice, Item
 
 from django import forms
 
@@ -112,3 +115,42 @@ AdressesInlineFormset = forms.inlineformset_factory(Person, Address,
                                                     fields=('kind', 'public_place',
                                                             'number', 'city', 'state', 'zipcode',
                                                             'country', 'neighborhood'))
+# --------------------------------------------------------------------------------------------------------------------
+KIND_DOCUMENT = (
+    ('0', 'RG'),
+    ('1', 'CPF'),
+    ('2', 'CNH'),
+    ('3', 'Comprovante Endereço'),
+)
+
+
+class InvoiceForm(forms.ModelForm):
+    class Meta:
+        model = Invoice
+        exclude = ['total', 'created', 'modified']
+
+
+class ItemForm(forms.ModelForm):
+    # kind = forms.ChoiceField(choices=KIND_DOCUMENT)
+
+    class Meta:
+        model = Item
+        exclude = ['invoice', 'created', 'modified']
+
+
+ItemInvoiceFormSet = formset_factory(ItemForm,
+                                     min_num=1,
+                                     validate_min=True,
+                                     extra=0,
+                                     max_num=16,
+                                     validate_max=True)
+
+ItemInvoiceUpdateFormSet = modelformset_factory(Item,
+                                                widgets={'kind': forms.Select(attrs={'class': 'browser-default'}), },
+                                                form=ItemForm,
+                                                min_num=1,
+                                                validate_min=True,
+                                                extra=0,
+                                                can_delete=True,
+                                                max_num=16,
+                                                validate_max=True)

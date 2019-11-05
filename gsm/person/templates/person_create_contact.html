@@ -3,27 +3,6 @@
 {% load material_form %}
 {% load i18n %}
 {% block container %}
-    <script>
-        $(document).ready(function(){
-            $("#add-item").click(function(ev) {
-                ev.preventDefault();
-                var count = $('#profissao-pessoa').children().length;
-                var tmplMarkup = $("#qualificacao-profissao-pessoa").html();
-                var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
-                $("div#profissao-pessoa").append(compiledTmpl);
-                // update form count
-                $('#id_person_documents-TOTAL_FORMS').attr('value', count + 1);
-                // some animate to scroll to view our new form
-                $('html, body').animate({
-                    scrollTop: $("#add-item").position().top-200
-                }, 800);
-            });
-        });
-    </script>
-
-
-
-
 <div class="card" id="card-radius">
     <form class="form-container" id="myForm" method="POST" enctype="multipart/form-data">{% csrf_token %}
         <div class="card-content">
@@ -71,20 +50,21 @@
                 </tbody>
             </table>
 
-            <table class="highlight">
-                <thead class="#cfd8dc blue-grey lighten-4">
-                    <tr>
-                        <th class="left-align">Documento</th>
-                        <th class="left-align">Arquivo</th>
-                        <th></th>
-                        <th class="left-align">Deletar</th>
-                    </tr>
-                </thead>
+            <div id="pessoa" class="form-inline form-group">
 
-                {{ file_document_formset.management_form }}
+                <table class="highlight">
+                    <thead class="#cfd8dc blue-grey lighten-4">
+                        <tr>
+                            <th class="left-align">Documento</th>
+                            <th class="left-align">Arquivo</th>
+                            <th></th>
+                            <th class="left-align">Deletar</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    <div id="pessoa" class="form-inline form-group">
+                    {{ file_document_formset.management_form }}
+
+                    <tbody>
                         {% for file_document_form in file_document_formset %}
                             <tr id="item2-{{ forloop.counter0 }}">
                                 <td>{{ file_document_form.kind.errors }} {{ file_document_form.kind }}</td>
@@ -110,9 +90,10 @@
 <!--                                </td>-->
                             </tr>
                         {% endfor %}
-                    </div>
-                </tbody>
-            </table>
+
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <a class="btn-floating btn-small waves-light red" id="add-item"><i class="material-icons">add</i></a>

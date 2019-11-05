@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block content %}
+  <div class="col-md-12">
+    <p>
+      <a href="{% url 'invoicing:invoice_list' %}" class="btn btn-primary">Invoice list</a>
+    </p>
+  </div>
+  <br>
+  <div class="col-lg-12">
+    <h2>Edit Invoice</h2>
+    <br>
+    {% bootstrap_form_errors form %}
+
+    {% bootstrap_formset_errors formset %}
+
+    <form method="post" role="form" autocomplete="off" enctype="multipart/form-data">{% csrf_token %}
+    {% bootstrap_form_errors form %}
+    {% bootstrap_formset_errors formset %}
+      <fieldset>
+        {% bootstrap_form form %}
+      </fieldset>
+      <fieldset>
+        <table class="table">
+          <thead>
+          <th>Title</th>
+          <th>Quantity</th>
+          <th>Unit price</th>
+          <th></th>
+          </thead>
+          {{ formset.management_form }}
+          <tbody>
+          {% for item_form in formset.forms %}
+            {% for hidden in item_form.hidden_fields %}
+              {{ hidden }}
+            {% endfor %}
+            <tr class="formset">
+              <td class="col-md-8">{% bootstrap_field item_form.title show_label=False %}</td>
+              <td class="col-md-2">{% bootstrap_field item_form.quantity show_label=False %}</td>
+              <td class="col-md-2">{% bootstrap_field item_form.unit_price show_label=False %}</td>
+              <td class=""></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </fieldset>
+      <br><br>
+      {% buttons %}
+        <button type="submit" class="btn btn-primary pull-right">Edit invoice</button>
+      {% endbuttons %}
+    </form>
+  </div>
+{% endblock %}
+
+{% block js %}
+  <script src="{% static 'js/jquery.formset.min.js' %}"></script>
+  <script src="{% static 'js/invoice_form.js' %}"></script>
+{% endblock %}

@@ -27,7 +27,7 @@ class Address(models.Model):
         ('C', 'COBRANÇA'),
         ('E', 'ENTREGA'),
     )
-    person = models.ForeignKey('persons.Person', related_name='addresses',  on_delete=models.CASCADE)
+    person = models.ForeignKey('persons.Person', related_name='addresses', on_delete=models.CASCADE)
     kind = models.CharField('Tipo', max_length=1, choices=KINDS)
     public_place = models.CharField('Logradouro',max_length=150)
     number = models.CharField('Número',max_length=150)
@@ -46,7 +46,6 @@ class Address(models.Model):
         return self.public_place
 
 
-
 class Client(Person):
     compra_sempre = models.BooleanField('Compra Sempre',default=False)
 
@@ -56,18 +55,14 @@ class Client(Person):
     def get_absolute_url(self):
         return reverse('persons:clients_editar', args=[str(self.id)])
 
-
-
     class Meta:
         verbose_name = 'Cliente'
         verbose_name_plural = 'Clientes'
 
 
-
 class Employee(Person):
     ctps = models.CharField('Carteira de Trabalho',max_length=25)
     salary = models.DecimalField('Salário',max_digits=15, decimal_places=2)
-
 
     def save(self, *args, **kwargs):
         # self.operacao = CONTA_OPERACAO_DEBITO
@@ -76,3 +71,41 @@ class Employee(Person):
     class Meta:
         verbose_name = 'Funcionário'
         verbose_name_plural = 'Funcionários'
+# --------------------------------------------------------------------------------------------------------------------
+
+
+class Customer(models.Model):
+    name = models.CharField('name', max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class Invoice(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    total = models.IntegerField('Total')
+
+    created = models.DateTimeField('created', auto_now_add=True)
+    modified = models.DateTimeField('modified', auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse('invoicing:invoice_detail', args=(self.pk,))
+
+
+KIND_DOCUMENT = (
+    ('0', 'RG'),
+    ('1', 'CPF'),
+    ('2', 'CNH'),
+    ('3', 'Comprovante Endereço'),
+)
+
+
+class Item(models.Model):
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    kind = models.TextField('Tipo Documento', max_length=1, choices=KIND_DOCUMENT)
+    title = models.CharField('title', max_length=255)
+    quantity = models.DecimalField('quantity', max_digits=10, decimal_places=3, default=1)
+    unit_price = models.DecimalField('unit price', max_digits=10, decimal_places=2)
+
+    created = models.DateTimeField('created', auto_now_add=True)
+    modified = models.DateTimeField('modified', auto_now=True)
