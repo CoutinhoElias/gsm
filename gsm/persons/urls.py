@@ -4,6 +4,9 @@ from django.views.i18n import JavaScriptCatalog
 
 from . import views
 
+app_name = 'persons'
+
+
 urlpatterns = [
     path('funcionarios/', views.employees, name='employees'),
     # url(r'clientes/editar/(?P<person_id>\d+)/endereco/$', address, name='address'),

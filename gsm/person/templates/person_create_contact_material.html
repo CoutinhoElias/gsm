@@ -104,6 +104,69 @@
                 <button name="btn_submit" class="waves-effect waves-light btn" type="submit">Salvar</button>
             </div>
         </div>
+
+<!-- ------------------------------------------------MODELO FORMSET--------------------------------------------------------------- -->
+        <dmc-formset>
+            <div class="formset-field col s12" data-formset-prefix="formset-file-document">
+                <!-- --------------------------------SCRIPT----------------------------------------------------------------------- -->
+                <script type="form-template" data-formset-empty-form="">
+                    <tr data-formset-form>
+                        {% for file_document_form in file_document_formset %}
+                            <td>{{ file_document_form.kind.errors }} {{ file_document_form.kind }}</td>
+                            <td>{{ file_document_form.file_document.errors }} {{ file_document_form.file_document }}</td>
+
+                            <td>{{ file_document_form.id.errors }} {{ file_document_form.id }}</td>
+                            <td class="left-align">
+                               <div class="switch">
+                                   <label>
+                                       {{ file_document_form.DELETE.errors }}
+                                       {{file_document_form.DELETE}}
+                                    <span class="lever"></span>
+                                   </label>
+                               </div>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                </script>
+                <!-- --------------------------------FIM SCRIPT------------------------------------------------------------------- -->
+                <!-- --------------------------------REPETICOES------------------------------------------------------------------- -->
+                <table class="table responsive-table">
+                    <tbody data-formset-body="">
+                        <tr data-formset-form="">
+
+                        {% for file_document_form in file_document_formset %}
+                            <td>{{ file_document_form.kind.errors }} {{ file_document_form.kind }}</td>
+                            <td>{{ file_document_form.file_document.errors }} {{ file_document_form.file_document }}</td>
+
+                            <td>{{ file_document_form.id.errors }} {{ file_document_form.id }}</td>
+                            <td class="left-align">
+                               <div class="switch">
+                                   <label>
+                                       {{ file_document_form.DELETE.errors }}
+                                       {{file_document_form.DELETE}}
+                                    <span class="lever"></span>
+                                   </label>
+                               </div>
+                            </td>
+                        {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- --------------------------------FIM REPETICOES--------------------------------------------------------------- -->
+                <!-- --------------------------------BOTAO------------------------------------------------------------------------ -->
+                <button type="button" class="btn btn-flat grey lighten-4" style="padding:0px 40px;width:100%" data-formset-add="">
+                    <i class="material-icons">add</i>
+                </button>
+                <!-- --------------------------------FIM BOTAO-------------------------------------------------------------------- -->
+                <!-- --------------------------------TOTAIS----------------------------------------------------------------------- -->
+                <input type="hidden" name="formset-file-document-TOTAL_FORMS" value="3" id="id_formset-file-document-TOTAL_FORMS">
+                <input type="hidden" name="formset-file-document-INITIAL_FORMS" value="0" id="id_formset-file-document-INITIAL_FORMS">
+                <input type="hidden" name="formset-file-document-MIN_NUM_FORMS" value="0" id="id_formset-file-document-MIN_NUM_FORMS">
+                <input type="hidden" name="formset-file-document-MAX_NUM_FORMS" value="1000" id="id_formset-file-document-MAX_NUM_FORMS">
+                <!-- --------------------------------FIM TOTAIS------------------------------------------------------------------- -->
+            </div>
+        </dmc-formset>
+<!-- ------------------------------------------------FIM MODELO FORMSET------------------------------------------------------------ -->
     </form>
 </div>
 

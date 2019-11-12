@@ -1,4 +1,5 @@
-from django.forms import formset_factory, modelformset_factory
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.forms import formset_factory, modelformset_factory, Select
 from material import *
 from material.base import Layout, Row, Span8, Span7, Span5, Span4
 
@@ -131,7 +132,9 @@ class InvoiceForm(forms.ModelForm):
 
 
 class ItemForm(forms.ModelForm):
-    # kind = forms.ChoiceField(choices=KIND_DOCUMENT)
+    # kind = forms.ChoiceField(choices=KIND_DOCUMENT, widget=Select(attrs={'class': 'material-ignore', 'display': 'none'}))
+    # kind = forms.ChoiceField(choices=KIND_DOCUMENT,
+    #                         widget=Select(attrs={'class': 'ocultar'}))
 
     class Meta:
         model = Item
@@ -146,7 +149,7 @@ ItemInvoiceFormSet = formset_factory(ItemForm,
                                      validate_max=True)
 
 ItemInvoiceUpdateFormSet = modelformset_factory(Item,
-                                                widgets={'kind': forms.Select(attrs={'class': 'browser-default'}), },
+                                                # widgets={'kind': forms.Select(attrs={'class': 'ocultar'}), },
                                                 form=ItemForm,
                                                 min_num=1,
                                                 validate_min=True,

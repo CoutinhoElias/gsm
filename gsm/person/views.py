@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404, resolve_url
 from material.base import LayoutMixin, Layout, Fieldset, Row, Span9, Span4, Span12, Span3, Span2, Span8, Span5
 
 from gsm.core.materialLayout import Inline
-from gsm.person.forms import PersonForm, ContactFormSet, FileDocumentFormSet, FilesDocumentsForms
+from gsm.person.forms import PersonForm, ContactFormSet, FileDocumentFormSet
 from gsm.person.models import Person, FilesDocuments, Contact
 
 

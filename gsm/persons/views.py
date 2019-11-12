@@ -191,7 +191,7 @@ def address(request):
 class InvoiceFormView(SuccessMessageMixin, FormView):
     form_class = InvoiceForm
     template_name = 'invoice_form.html'
-    success_url = reverse_lazy('persons:invoice_list')
+    success_url = reverse_lazy('persons:invoice_add')
     success_message = 'The invoice was created correctly.'
 
     def get_context_data(self, **kwargs):

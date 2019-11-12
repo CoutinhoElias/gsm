@@ -7,31 +7,9 @@ body {
     //margin-top:6em
 }
 
-#title-panel, #empty-panel{
-    color: #f4f8fa
-}
 
-/*table.nospacing th, td {
-    padding: 0;
-    width: 120%;
-}*/
-
-#table-especial {
-    padding: 0;
-    width: 120%;
-}
-
-table th, table td {
-    padding: 0px 0px;
-    display: table-cell;
-    text-align: left;
-    vertical-align: middle;
-    border-radius: 2px;
-}
-
-
-#width-100{
-    width: 100%;
+td > .select-wrapper > input {
+  display: none;
 }
 
 .img-logo {
@@ -51,4 +29,3 @@ opacity: 1!important;
 visibility: visible!important;
 pointer-events: all!important;
 }*/
-

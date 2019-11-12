@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+//nathan
+  $('select').formSelect();
+
   $('form table tbody tr').formset({
     deleteText: '<i class="material-icons">&#xE872;</i>',
     deleteCssClass: 'btn-floating btn-small red',

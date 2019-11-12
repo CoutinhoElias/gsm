@@ -53,7 +53,7 @@ ContactFormSet = inlineformset_factory(Person, Contact,
                                        fields=('kind', 'description', 'contact'),
                                        extra=0,
                                        min_num=1)
-# widgets={'kind__kind': forms.TextInput(attrs={'class': 'input-field browser-default'}), },
+
 
 FileDocumentFormSet = inlineformset_factory(Person, FilesDocuments,
                                             # widgets={'delete': forms.CheckboxInput(attrs={'width': '110%'}), },
@@ -63,19 +63,3 @@ FileDocumentFormSet = inlineformset_factory(Person, FilesDocuments,
                                             extra=0,
                                             min_num=1)
 
-
-# FORMULÁRIO PARA INLINES
-class FilesDocumentsForms(forms.ModelForm):
-    class Meta:
-        model = FilesDocuments
-        fields = '__all__'
-        # exclude = ['person']
-#
-#
-# FileDocumentFormSet = inlineformset_factory(Person, FilesDocuments, form=FilesDocumentsForms,
-#                                             # widgets={'delete': forms.CheckboxInput(attrs={'width': '110%'}), },
-#                                             exclude=('id',),
-#                                             can_delete=True,
-#                                             fields=('kind', 'file_document'),
-#                                             extra=0,
-#                                             min_num=1)
