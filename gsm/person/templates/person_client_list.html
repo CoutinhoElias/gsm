@@ -35,7 +35,7 @@
                         <a href="/"><i class="material-icons prefix">home</i></a>
                     </td>
                     <td class="center-align">
-                        <a href="{% url 'person_update' id=person.id %}">{{ person.id|linebreaks }}</a>
+                        <a href="{% url 'person:person_update' id=person.id %}">{{ person.id|linebreaks }}</a>
                     </td>
                     <td>
                         {{ person.name|linebreaks }}

@@ -27,6 +27,7 @@
                 {% for item_form in formset.forms %}
                   <tr class="formset">
                       <td>{{ item_form.kind.errors }} {{ item_form.kind }}</td>
+                      <td>{{ item_form.file_document.errors }} {{ item_form.file_document }}</td>
                       <td>{{ item_form.title.errors }} {{ item_form.title }}</td>
                       <td>{{ item_form.quantity.errors }} {{ item_form.quantity }}</td>
                       <td>{{ item_form.unit_price.errors }} {{ item_form.unit_price }}</td>

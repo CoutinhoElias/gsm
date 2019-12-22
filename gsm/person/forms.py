@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import inlineformset_factory
+from django.forms import inlineformset_factory, formset_factory
 from material import Layout, Fieldset, Span3, Row, Span12, Span9, Span4, Span2, Span8, Span5
 
 from gsm.person.models import Person, Contact, FilesDocuments
@@ -47,19 +47,34 @@ class PersonForm(forms.ModelForm):
         )
 
 
-ContactFormSet = inlineformset_factory(Person, Contact,
-                                       exclude=('id',),
-                                       can_delete=True,
-                                       fields=('kind', 'description', 'contact'),
-                                       extra=0,
-                                       min_num=1)
+class FileForm(forms.ModelForm):
+
+    class Meta:
+        model = FilesDocuments
+        # fields = ('kind', 'file_document')
+        exclude = ['id']
 
 
+# widgets={'description': forms.TextInput(attrs={'class': 'input-field'}), },
+ContactForm = inlineformset_factory(Person, Contact,
+                                    exclude=('id',),
+                                    can_delete=True,
+                                    fields=('kind', 'description', 'contact'),
+                                    extra=0,
+                                    min_num=1)
+
+# widgets={'description': forms.FileInput(attrs={'class': 'input-field'}), },
 FileDocumentFormSet = inlineformset_factory(Person, FilesDocuments,
-                                            # widgets={'delete': forms.CheckboxInput(attrs={'width': '110%'}), },
-                                            exclude=('id',),
-                                            can_delete=True,
-                                            fields=('kind', 'file_document'),
-                                            extra=0,
-                                            min_num=1)
+                                             exclude=('id',),
+                                             can_delete=True,
+                                             fields=('kind', 'file_document'),
+                                             extra=0,
+                                             min_num=1)
+
+FileDocumentFormSet0 = formset_factory(FileForm,
+                                      min_num=1,
+                                      validate_min=True,
+                                      extra=0,
+                                      max_num=16,
+                                      validate_max=True)
 

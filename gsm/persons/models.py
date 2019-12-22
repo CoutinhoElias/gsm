@@ -103,6 +103,7 @@ KIND_DOCUMENT = (
 class Item(models.Model):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
     kind = models.TextField('Tipo Documento', max_length=1, choices=KIND_DOCUMENT)
+    file_document = models.FileField(upload_to='documents/')
     title = models.CharField('title', max_length=255)
     quantity = models.DecimalField('quantity', max_digits=10, decimal_places=3, default=1)
     unit_price = models.DecimalField('unit price', max_digits=10, decimal_places=2)

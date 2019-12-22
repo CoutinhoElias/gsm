@@ -3,98 +3,89 @@
 {% load material_form %}
 {% load i18n %}
 {% block container %}
-
 <div class="card" id="card-radius">
     <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-            <div class="card-content">
-                {% form form=form %}
-                    {% part form.name prefix %}<i class="material-icons prefix">person</i>{% endpart %}
-                    {% part form.phone prefix %}<i class="material-icons prefix">phone</i>{% endpart %}
-                    {% part form.email prefix %}<i class="material-icons prefix">contact_mail</i>{% endpart %}
-                {% endform %}
-            </div>
+        <div class="card-content">
+            {% form form=form %}
+                {% part form.name prefix %}<i class="material-icons prefix">person</i>{% endpart %}
+                {% part form.phone prefix %}<i class="material-icons prefix">phone</i>{% endpart %}
+                {% part form.email prefix %}<i class="material-icons prefix">contact_mail</i>{% endpart %}
+            {% endform %}
+        </div>
 
         <div class="card-content">
             <h5>Adicione os Tipos de contatos</h5>
-            <table class="highlight">
-                <thead class="#cfd8dc blue-grey lighten-4">
+            <table class="striped">
+                <thead>
                     <tr>
-                        <th class="left-align">Tipo Contato</th>
-                        <th class="left-align">Descrição</th>
-                        <th class="left-align">Pessoa Contato</th>
-                        <th></th>
-                        <th class="left-align">Deletar</th>
-
+                        <th class="left-align"></th>
+                        <th class="left-align"></th>
+                        <th class="left-align"></th>
                     </tr>
                 </thead>
 
                 {{ contact_formset.management_form }}
 
-                <tbody>
-<!--                <button type="button" class="btn btn-flat grey lighten-4" style="padding:0px 40px;width:100%" data-formset-add=""><i class="material-icons">add</i></button>-->
-                    {% for item_form in contact_formset %}
-                          <tr>
-                            <td>{{ item_form.kind.errors }} {{ item_form.kind }}</td>
-                            <td>{{ item_form.descriprion.errors }} {{ item_form.description }}</td>
-                            <td>{{ item_form.contact.errors }} {{ item_form.contact }}</td>
-                            <td>{{ item_form.id.errors }} {{ item_form.id }}
-                            <td class="left-align">
-                               <div class="switch">
-                                   <label>
-                                       {{ item_form.DELETE.errors }}
-                                       {{item_form.DELETE}}
-                                    <span class="lever"></span>
-                                   </label>
-                               </div>
+                <tbody class="contact-formset">
+                    {% for contact_form in contact_formset.forms%}
+                        <tr>
+                            <td>
+                                {{ contact_form.kind.errors }} {{ contact_form.kind }}
                             </td>
-                          </tr>
+                            <td>
+                                <div class="input-field">
+                                {{contact_form.descriprion.errors}}
+                                {{contact_form.description}}
+                                <label for="{{ contact_form.description.id_for_label}}">{{contact_form.description.label}}</label>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="input-field">
+                                {{contact_form.contact.errors}}
+                                {{contact_form.contact}}
+                                <label for="{{ contact_form.contact.id_for_label}}">{{contact_form.contact.label}}</label>
+                                </div>
+                            </td>
+                            <td class=""></td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>
 
             <h5>Adicione os documentos</h5>
 
-            <table class="highlight">
-                <thead class="#cfd8dc blue-grey lighten-4">
+            <table class="striped">
+                <thead >
                     <tr>
-                        <th class="left-align">Documento</th>
-                        <th class="left-align">Arquivo</th>
+                        <th class="left-align"></th>
+                        <th class="left-align"></th>
                         <th></th>
-                        <th class="left-align">Deletar</th>
                     </tr>
                 </thead>
+                {{ file_formset.management_form }}
+                <tbody class="document-formset">
+                {% for file_document in file_formset.forms %}
+                    <tr class="formset">
+                        <td>{{ file_document.kind.errors }} {{ file_document.kind }}</td>
+                        <td>{{ file_document.file_document.errors }} {{ file_document.file_document }}</td>
 
-                {{ file_document_formset.management_form }}
+<!--                        <td>-->
+<!--                            <div class="file-field input-field">-->
+<!--                                <div class="btn">-->
+<!--                                    <span>Arquivo</span>-->
+<!--                                </div>-->
+<!--                                <div class="file-path-wrapper">-->
+<!--                                    <input class="file-path validate" type="text">-->
+<!--                                    {{file_document.file_document.errors}}-->
+<!--                                    {{file_document.file_document}}-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </td>-->
 
-                <tbody>
-                    {% for file_document_form in file_document_formset %}
-                          <tr>
-                            <td>{{ file_document_form.kind.errors }} {{ file_document_form.kind }}</td>
-                            <td>{{ file_document_form.file_document.errors }} {{ file_document_form.file_document }}</td>
-
-                            <td>{{ file_document_form.id.errors }} {{ file_document_form.id }}</td>
-                            <td class="left-align">
-                               <div class="switch">
-                                   <label>
-                                       {{ file_document_form.DELETE.errors }}
-                                       {{file_document_form.DELETE}}
-                                    <span class="lever"></span>
-                                   </label>
-                               </div>
-                            </td>
-
-                            <td>
-                                <div style="display:none"><input type="checkbox" name="formset-emergency_contacts-__prefix__-DELETE" id="id_person_documents-__prefix__-DELETE" /></div>
-                                <button type="button" class="btn btn-flat white lighten-4"
-                                        style="padding:0px 5px;font-size:0.7rem;height:calc(100% - 15px);width:100%"
-                                        data-formset-delete-button>
-                                    <i class="material-icons">clear</i>
-                                </button>
-                            </td>
-                                <!--<td align="center">{{ file_document_form.DELETE }}</td>-->
-                          </tr>
-                    {% endfor %}
-
+                        <td class=""></td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -349,16 +340,30 @@
 
 </script>
 
+
+
 <script type="text/javascript">
     $(document).ready(function () {
 
-      $('form table tbody tr').formset({
-        deleteText: '<i class="material-icons">&#xE872;</i>',
-        deleteCssClass: 'btn-floating red',
-        addText: '<i class="material-icons">add</i> Add novo item',
-        addCssClass: 'btn-floating btn-large blue',
-        prefix: 'items'
-      });
+        $('form table tbody.contact-formset tr').formset({
+            addCssClass: 'btn-floating btn-large blue',
+            deleteCssClass: 'btn-floating red',
+            addText: '<i class="material-icons">add</i> Add novo item',
+            deleteText: '<i class="material-icons">&#xE872;</i>',
+            prefix: 'contacts',
+            // prefix acima foi definido na view
+            formCssClass: 'contact-forms'
+        });
+
+        $('form table tbody.document-formset tr').formset({
+            addCssClass: 'btn-floating btn-large blue',
+            deleteCssClass: 'btn-floating red',
+            addText: '<i class="material-icons">add</i> Add novo item',
+            deleteText: '<i class="material-icons">&#xE872;</i>',
+            prefix: 'files',
+            // prefix acima foi definido na view
+            formCssClass: 'document-forms'
+        });
 
     });
 </script>

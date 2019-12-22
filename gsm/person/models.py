@@ -4,6 +4,7 @@ from django.db import models
 from django.urls import reverse
 
 KIND_CONTACT = (
+    (None, 'Escolha o Contato'),
     ('0', 'Telefone Fixo'),
     ('1', 'Celular 1'),
     ('2', 'Celular 2'),
@@ -13,6 +14,7 @@ KIND_CONTACT = (
 )
 
 KIND_DOCUMENT = (
+    (None, 'Escolha o Documento'),
     ('0', 'RG'),
     ('1', 'CPF'),
     ('2', 'CNH'),

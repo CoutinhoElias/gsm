@@ -1,41 +1,44 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.db import transaction
 from django.db.models import Q
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404, resolve_url
+from django.urls import reverse_lazy
+from django.views.generic import FormView
 from material.base import LayoutMixin, Layout, Fieldset, Row, Span9, Span4, Span12, Span3, Span2, Span8, Span5
 
 from gsm.core.materialLayout import Inline
-from gsm.person.forms import PersonForm, ContactFormSet, FileDocumentFormSet
+from gsm.person.forms import PersonForm, FileDocumentFormSet, ContactForm
 from gsm.person.models import Person, FilesDocuments, Contact
 
 
-def create_person(request):
-    template_name = 'person_create0.html'
-    person_form = Person()
-    person_document_formset = inlineformset_factory(
-        Person,
-        FilesDocuments,
-        form=FilesDocumentsForms,
-        extra=0,
-        min_num=1,
-        validate_min=True,
-    )
-    if request.method == 'POST':
-        form = PersonForm(request.POST, request.FILES, instance=person_form,prefix='main')
-        formset = person_document_formset(request.POST, request.FILES, instance=person_form, prefix='person')
-        if form.is_valid() and formset.is_valid():
-            form = form.save()
-            formset.save()
-            url = 'person:create_person'
-            return HttpResponseRedirect(resolve_url(url, form.pk))
-    else:
-        form = PersonForm(instance=person_form, prefix='main')
-        formset = person_document_formset(instance=person_form, prefix='person')
-    context = {'form': form, 'formset': formset}
-    return render(request, template_name, context)
+# def create_person(request):
+#     template_name = 'person_create0.html'
+#     person_form = Person()
+#     person_document_formset = inlineformset_factory(
+#         Person,
+#         FilesDocuments,
+#         form=FilesDocumentsForms,
+#         extra=0,
+#         min_num=1,
+#         validate_min=True,
+#     )
+#     if request.method == 'POST':
+#         form = PersonForm(request.POST, request.FILES, instance=person_form,prefix='main')
+#         formset = person_document_formset(request.POST, request.FILES, instance=person_form, prefix='person')
+#         if form.is_valid() and formset.is_valid():
+#             form = form.save()
+#             formset.save()
+#             url = 'person:create_person'
+#             return HttpResponseRedirect(resolve_url(url, form.pk))
+#     else:
+#         form = PersonForm(instance=person_form, prefix='main')
+#         formset = person_document_formset(instance=person_form, prefix='person')
+#     context = {'form': form, 'formset': formset}
+#     return render(request, template_name, context)
 
 
 # class FilesDocumentsInline(InlineFormSetFactory):
@@ -83,11 +86,57 @@ def create_person(request):
 #     template_name = 'person_create_contact.html'
 
 
+class PersonFormView(SuccessMessageMixin, FormView):
+    form_class = PersonForm
+    template_name = 'person_create_contact.html'
+    success_url = reverse_lazy('person:person_client_list')
+    success_message = 'The person was created correctly.'
+
+    def get_context_data(self, **kwargs):
+        context = super(PersonFormView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['contact_formset'] = ContactForm(self.request.POST, prefix='contacts')
+            context['file_formset'] = FileDocumentFormSet(self.request.POST, self.request.FILES, prefix='files')
+        else:
+            context['contact_formset'] = ContactForm(prefix='contacts')
+            context['file_formset'] = FileDocumentFormSet(prefix='files')
+        print('-----------------CONTEXT------------------')
+        print(context)
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        contact_formset = context['contact_formset']
+        file_formset = context['file_formset']
+        total = 0
+        if contact_formset.is_valid() and file_formset.is_valid():
+            person = form.save(commit=False)
+            person.save()
+
+            contact_formset.instance = person
+            contact_formset.save()
+
+            file_formset.instance = person
+            file_formset.save()
+            # for item_form in contact_formset.forms:
+            #     item = item_form.save(commit=False)
+            #     item.person = person
+            #     item.save()
+            #     total += item.quantity * item.unit_price
+            # person.total = total
+            # person.save()
+            return super(PersonFormView, self).form_valid(form)
+        else:
+            print('-----------------FORM INVALIDO------------------')
+            print(file_formset)
+            return self.render_to_response(self.get_context_data(form=form))
+        
+        
 def person_create(request, ):
     if request.method == 'POST':
         form = PersonForm(request.POST)
 
-        contact_formset = ContactFormSet(request.POST, request.FILES)
+        contact_formset = ContactFormSet(request.POST)
 
         file_document_formset = FileDocumentFormSet(request.POST, request.FILES)
 
@@ -128,7 +177,7 @@ def person_create(request, ):
 
 def person_update(request, id):
     # Pega a chave da URL acima com (request, pk)
-    # joga na variável invoice na linha abaixo passando o modelo MESTRE e os parâmetros que desejo como filtro
+    # joga na variável person na linha abaixo passando o modelo MESTRE e os parâmetros que desejo como filtro
     person = get_object_or_404(Person, id=id)
 
     if request.method == 'POST':

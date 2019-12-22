@@ -33,9 +33,9 @@
 
             <!-- Dropdown Structure -->
             <ul id="drp_clientes" class="dropdown-content">
-              <li><a class="black-text darken-4" href="{% url 'person_create' %}"><i class="material-icons">person</i>Novo Cliente</a></li>
+              <li><a class="black-text darken-4" href="{% url 'person:person_create' %}"><i class="material-icons">person</i>Novo Cliente</a></li>
               <li><a class="black-text darken-4" href="/"><i class="material-icons">perm_contact_calendar</i>Novo Contato</a></li>
-              <li><a class="black-text darken-4"  href="{% url 'person_client_list' %}"><i class="material-icons">format_list_bulleted</i>Lista Clientes</a></li>
+              <li><a class="black-text darken-4"  href="{% url 'person:person_client_list' %}"><i class="material-icons">format_list_bulleted</i>Lista Clientes</a></li>
               <li class="divider"></li>
               <li><a class="black-text darken-4"  href="#!">em breve...</a></li>
             </ul>
@@ -115,9 +115,9 @@
                     <li class="bold active"><a class="collapsible-header" tabindex="0">CADASTROS</a>
                       <div class="collapsible-body" style="display: block;">
                         <ul>
-                          <li><a class="black-text darken-4" href="{% url 'person_create' %}"><i class="material-icons">person</i>Novo Cliente</a></li>
+                          <li><a class="black-text darken-4" href="{% url 'person:person_create' %}"><i class="material-icons">person</i>Novo Cliente</a></li>
                           <li><a class="black-text darken-4" href="/"><i class="material-icons">perm_contact_calendar</i>Novo Contato</a></li>
-                          <li><a class="black-text darken-4" href="{% url 'person_client_list' %}"><i class="material-icons">list</i>Lista Clientes</a></li>
+                          <li><a class="black-text darken-4" href="{% url 'person:person_client_list' %}"><i class="material-icons">list</i>Lista Clientes</a></li>
                         </ul>
                       </div>
                     </li>
@@ -257,6 +257,7 @@
         <script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
         <script src="{% static 'js/charts.js' %}"></script>
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
+
         {% include 'material/includes/material_js.html' %}
         <script>
             jQuery.datetimepicker.setLocale('pt-BR');

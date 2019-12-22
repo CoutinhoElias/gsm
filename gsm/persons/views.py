@@ -197,7 +197,7 @@ class InvoiceFormView(SuccessMessageMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super(InvoiceFormView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context['formset'] = ItemInvoiceFormSet(self.request.POST, prefix='items')
+            context['formset'] = ItemInvoiceFormSet(self.request.POST, self.request.FILES, prefix='items')
         else:
             context['formset'] = ItemInvoiceFormSet(prefix='items')
         return context

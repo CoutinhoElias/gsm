@@ -132,9 +132,6 @@ class InvoiceForm(forms.ModelForm):
 
 
 class ItemForm(forms.ModelForm):
-    # kind = forms.ChoiceField(choices=KIND_DOCUMENT, widget=Select(attrs={'class': 'material-ignore', 'display': 'none'}))
-    # kind = forms.ChoiceField(choices=KIND_DOCUMENT,
-    #                         widget=Select(attrs={'class': 'ocultar'}))
 
     class Meta:
         model = Item
@@ -149,7 +146,6 @@ ItemInvoiceFormSet = formset_factory(ItemForm,
                                      validate_max=True)
 
 ItemInvoiceUpdateFormSet = modelformset_factory(Item,
-                                                # widgets={'kind': forms.Select(attrs={'class': 'ocultar'}), },
                                                 form=ItemForm,
                                                 min_num=1,
                                                 validate_min=True,
